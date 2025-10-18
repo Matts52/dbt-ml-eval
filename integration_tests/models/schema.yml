@@ -6,3 +6,16 @@ models:
       - assert_close:
           actual: actual_25
           expected: expected_25
+
+  - name: test_precision
+    data_tests:
+      - assert_close:
+          actual: actual_25
+          expected: expected_25
+
+  - name: test_recall
+    data_tests:
+      - assert_close:
+          actual: actual_25
+          expected: expected_25
+

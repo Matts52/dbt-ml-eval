@@ -5,11 +5,11 @@ with classification_25 as (
 
 select
     {{
-        dbt_ml_eval.accuracy(
+        dbt_ml_eval.precision(
             actual = 'actual',
             predicted = 'predicted'
         )
     }}
     as actual_25,
-    0.76 as expected_25 -- calculated by hand
+    0.769 as expected_25 -- calculated by hand
 from classification_25
