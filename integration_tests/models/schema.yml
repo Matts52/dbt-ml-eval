@@ -1,0 +1,8 @@
+version: 2
+
+models:
+  - name: test_accuracy
+    data_tests:
+      - assert_close:
+          actual: actual_25
+          expected: expected_25
