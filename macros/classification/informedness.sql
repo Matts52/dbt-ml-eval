@@ -5,8 +5,8 @@
 {%- macro default__informedness(actual, predicted, positive_label=1) -%}
 
     (
-        {{ true_positive_rate(actual, predicted, positive_label) }}
-        + {{ true_negative_rate(actual, predicted, positive_label) }}
+        {{ dbt_ml_eval.true_positive_rate(actual, predicted, positive_label) }}
+        + {{ dbt_ml_eval.true_negative_rate(actual, predicted, positive_label) }}
         - 1
     )
 

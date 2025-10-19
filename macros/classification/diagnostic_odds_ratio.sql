@@ -5,9 +5,13 @@
 {%- macro default__diagnostic_odds_ratio(actual, predicted, positive_label=1) -%}
 
     (
-        {{ positive_likelihood_ratio(actual, predicted, positive_label) }}
+        (
+            {{ dbt_ml_eval.positive_likelihood_ratio(actual, predicted, positive_label) }}
+        )
         /
-        {{ negative_likelihood_ratio(actual, predicted, positive_label) }}
+        (
+            {{ dbt_ml_eval.negative_likelihood_ratio(actual, predicted, positive_label) }}
+        )
     )
 
 {%- endmacro -%}

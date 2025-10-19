@@ -19,3 +19,128 @@ models:
           actual: actual_25
           expected: expected_25
 
+  - name: test_balanced_accuracy
+    data_tests:
+      - assert_close:
+          actual: actual_25
+          expected: expected_25
+
+  - name: test_diagnostic_odds_ratio
+    data_tests:
+      - assert_close:
+          actual: actual_25
+          expected: expected_25
+
+  - name: test_f1_score
+    data_tests:
+      - assert_close:
+          actual: actual_25
+          expected: expected_25
+
+  - name: test_false_discovery_rate
+    data_tests:
+      - assert_close:
+          actual: actual_25
+          expected: expected_25
+
+  - name: test_false_negative_rate
+    data_tests:
+      - assert_close:
+          actual: actual_25
+          expected: expected_25
+
+  - name: test_false_omission_rate
+    data_tests:
+      - assert_close:
+          actual: actual_25
+          expected: expected_25
+
+  - name: test_false_positive_rate
+    data_tests:
+      - assert_close:
+          actual: actual_25
+          expected: expected_25
+
+  - name: test_fowlkes_mallows_index
+    data_tests:
+      - assert_close:
+          actual: actual_25
+          expected: expected_25
+
+  - name: test_informedness
+    data_tests:
+      - assert_close:
+          actual: actual_25
+          expected: expected_25
+
+  - name: test_jaccard_index
+    data_tests:
+      - assert_close:
+          actual: actual_25
+          expected: expected_25
+
+  - name: test_markedness
+    data_tests:
+      - assert_close:
+          actual: actual_25
+          expected: expected_25
+
+  - name: test_matthews_correlation
+    data_tests:
+      - assert_close:
+          actual: actual_25
+          expected: expected_25
+
+  - name: test_negative_likelihood_ratio
+    data_tests:
+      - assert_close:
+          actual: actual_25
+          expected: expected_25
+
+  - name: test_negative_predictive_value
+    data_tests:
+      - assert_close:
+          actual: actual_25
+          expected: expected_25
+
+  - name: test_positive_likelihood_ratio
+    data_tests:
+      - assert_close:
+          actual: actual_25
+          expected: expected_25
+
+  - name: test_positive_predictive_value
+    data_tests:
+      - assert_close:
+          actual: actual_25
+          expected: expected_25
+
+  - name: test_prevalence_threshold
+    data_tests:
+      - assert_close:
+          actual: actual_25
+          expected: expected_25
+
+  - name: test_prevalence
+    data_tests:
+      - assert_close:
+          actual: actual_25
+          expected: expected_25
+
+  - name: test_specificity
+    data_tests:
+      - assert_close:
+          actual: actual_25
+          expected: expected_25
+
+  - name: test_true_negative_rate
+    data_tests:
+      - assert_close:
+          actual: actual_25
+          expected: expected_25
+
+  - name: test_true_positive_rate
+    data_tests:
+      - assert_close:
+          actual: actual_25
+          expected: expected_25

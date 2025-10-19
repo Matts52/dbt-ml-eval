@@ -6,8 +6,8 @@
 
     {{
         dbt_utils.safe_divide(
-            "2 * ((" ~ precision(actual, predicted, positive_label) ~ ") * (" ~ recall(actual, predicted, positive_label) ~ "))",
-            "(" ~ precision(actual, predicted, positive_label) ~ " + " ~ recall(actual, predicted, positive_label) ~ ")"
+            "2 * ((" ~ dbt_ml_eval.precision(actual, predicted, positive_label) ~ ") * (" ~ dbt_ml_eval.recall(actual, predicted, positive_label) ~ "))",
+            "(" ~ dbt_ml_eval.precision(actual, predicted, positive_label) ~ " + " ~ dbt_ml_eval.recall(actual, predicted, positive_label) ~ ")"
         )
     }}
 

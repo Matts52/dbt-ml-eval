@@ -5,9 +5,21 @@
 {%- macro default__positive_likelihood_ratio(actual, predicted, positive_label=1) -%}
 
     (
-        {{ true_positive_rate(actual, predicted, positive_label) }}
+    {{
+        dbt_utils.safe_divide(
+            "sum(case when " ~ predicted ~ " = " ~ positive_label ~ " and " ~ actual ~ " = " ~ positive_label ~ " then 1 else 0 end)",
+            "sum(case when " ~ actual ~ " = " ~ positive_label ~ " then 1 else 0 end)::numeric"
+        )
+    }}
+    )
         /
-        {{ false_positive_rate(actual, predicted, positive_label) }}
+    (
+    {{
+        dbt_utils.safe_divide(
+            "sum(case when " ~ predicted ~ " = " ~ positive_label ~ " and " ~ actual ~ " != " ~ positive_label ~ " then 1 else 0 end)",
+            "sum(case when " ~ actual ~ " != " ~ positive_label ~ " then 1 else 0 end)"
+        )
+    }}
     )
 
 {%- endmacro -%}

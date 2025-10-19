@@ -6,14 +6,14 @@
 
     (
         (
-            {{ true_positive_rate(actual, predicted, positive_label) }}
-            * {{ false_positive_rate(actual, predicted, positive_label) }}
-            - {{ false_positive_rate(actual, predicted, positive_label) }}
+            {{ dbt_ml_eval.true_positive_rate(actual, predicted, positive_label) }}
+            * {{ dbt_ml_eval.false_positive_rate(actual, predicted, positive_label) }}
+            - {{ dbt_ml_eval.false_positive_rate(actual, predicted, positive_label) }}
         )
         /
         (
-            {{ true_positive_rate(actual, predicted, positive_label) }}
-            - {{ false_positive_rate(actual, predicted, positive_label) }}
+            {{ dbt_ml_eval.true_positive_rate(actual, predicted, positive_label) }}
+            - {{ dbt_ml_eval.false_positive_rate(actual, predicted, positive_label) }}
         )
     )
 
