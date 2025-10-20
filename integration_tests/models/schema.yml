@@ -168,3 +168,51 @@ models:
       - assert_equal:
           actual: actual_25
           expected: expected_25
+
+  - name: test_mean_absolute_error
+    data_tests:
+      - assert_close:
+          actual: actual_25
+          expected: expected_25
+
+  - name: test_mean_squared_error
+    data_tests:
+      - assert_close:
+          actual: actual_25
+          expected: expected_25
+
+  - name: test_root_mean_squared_error
+    data_tests:
+      - assert_close:
+          actual: actual_25
+          expected: expected_25
+
+  - name: test_mean_absolute_percentage_error
+    data_tests:
+      - assert_close:
+          actual: actual_25
+          expected: expected_25
+
+  - name: test_r2_score
+    data_tests:
+      - assert_close:
+          actual: actual_25
+          expected: expected_25
+
+  - name: test_explained_variance
+    data_tests:
+      - assert_close:
+          actual: actual_25
+          expected: expected_25
+
+  - name: test_median_absolute_error
+    data_tests:
+      - assert_close:
+          actual: actual_25
+          expected: expected_25
+
+  - name: test_mean_bias_error
+    data_tests:
+      - assert_close:
+          actual: actual_25
+          expected: expected_25
