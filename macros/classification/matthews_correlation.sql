@@ -5,19 +5,19 @@
 {%- macro default__matthews_correlation(actual, predicted, positive_label=1) -%}
 
     {%- set TP -%}
-        (sum(case when {{ predicted }} = {{ positive_label }} and {{ actual }} = {{ positive_label }} then 1 else 0 end))
+        {{ dbt_ml_eval.true_positives(actual, predicted, positive_label=positive_label) }}
     {%- endset -%}
 
     {%- set TN -%}
-        (sum(case when {{ predicted }} != {{ positive_label }} and {{ actual }} != {{ positive_label }} then 1 else 0 end))
+        {{ dbt_ml_eval.true_negatives(actual, predicted, positive_label=positive_label) }}
     {%- endset -%}
 
     {%- set FP -%}
-        (sum(case when {{ predicted }} = {{ positive_label }} and {{ actual }} != {{ positive_label }} then 1 else 0 end))
+        {{ dbt_ml_eval.false_positives(actual, predicted, positive_label=positive_label) }}
     {%- endset -%}
 
     {%- set FN -%}
-        (sum(case when {{ predicted }} != {{ positive_label }} and {{ actual }} = {{ positive_label }} then 1 else 0 end))
+        {{ dbt_ml_eval.false_negatives(actual, predicted, positive_label=positive_label) }}
     {%- endset -%}
 
     {{
