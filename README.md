@@ -390,7 +390,6 @@ with preds as (
 select
   {{ dbt_ml_eval.classification_metrics('actual', 'predicted', positive_label=1) }}
 from preds
-limit 1
 ```
 
 Get a set of regression metrics for `my_regression_preds`:
@@ -399,7 +398,6 @@ Get a set of regression metrics for `my_regression_preds`:
 select
   {{ dbt_ml_eval.regression_metrics('actual', 'predicted') }}
 from {{ ref('my_regression_preds') }}
-limit 1
 ```
 
 ---
