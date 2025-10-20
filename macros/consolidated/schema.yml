@@ -1,0 +1,29 @@
+version: 2
+
+macros:
+  - name: classification_metrics
+    description: |
+      Convenience macro that returns a wide set of classification metrics and counts (TP, TN, FP, FN) for a given actual/predicted pair.
+      It delegates to individual classification macros (precision, recall, f1_score, etc.) and emits them as columns.
+    arguments:
+      - name: actual
+        type: string
+        description: Column name containing the ground-truth label (e.g. 'actual')
+      - name: predicted
+        type: string
+        description: Column name containing the predicted label (e.g. 'predicted')
+      - name: positive_label
+        type: integer
+        description: Value representing the positive class (default = 1)
+
+  - name: regression_metrics
+    description: |
+      Convenience macro that returns a set of regression metrics (MAE, MSE, RMSE, R^2, explained variance, etc.) for a given actual/predicted pair.
+      Delegates to individual regression macros and returns them as columns.
+    arguments:
+      - name: actual
+        type: string
+        description: Column name containing the true values (e.g. 'actual')
+      - name: predicted
+        type: string
+        description: Column name containing the predicted values (e.g. 'predicted')

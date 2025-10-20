@@ -1,0 +1,90 @@
+version: 2
+
+macros:
+  - name: mean_absolute_error
+    description: |
+      Mean Absolute Error (MAE): the average absolute difference between actual and predicted values.
+    arguments:
+      - name: actual
+        type: string
+        description: Column name containing the true values
+      - name: predicted
+        type: string
+        description: Column name containing the predicted values
+
+  - name: mean_squared_error
+    description: |
+      Mean Squared Error (MSE): the average squared difference between actual and predicted values.
+    arguments:
+      - name: actual
+        type: string
+        description: Column name containing the true values
+      - name: predicted
+        type: string
+        description: Column name containing the predicted values
+
+  - name: root_mean_squared_error
+    description: |
+      Root Mean Squared Error (RMSE): the square root of the mean squared error.
+    arguments:
+      - name: actual
+        type: string
+        description: Column name containing the true values
+      - name: predicted
+        type: string
+        description: Column name containing the predicted values
+
+  - name: mean_absolute_percentage_error
+    description: |
+      Mean Absolute Percentage Error (MAPE): the mean absolute percentage difference between actual and predicted values.
+    arguments:
+      - name: actual
+        type: string
+        description: Column name containing the true values
+      - name: predicted
+        type: string
+        description: Column name containing the predicted values
+
+  - name: r2_score
+    description: |
+      R-squared: coefficient of determination measuring proportion of variance explained by the predictions.
+    arguments:
+      - name: actual
+        type: string
+        description: Column name containing the true values
+      - name: predicted
+        type: string
+        description: Column name containing the predicted values
+
+  - name: explained_variance
+    description: |
+      Explained variance score: proportion of variance explained by the predicted values.
+    arguments:
+      - name: actual
+        type: string
+        description: Column name containing the true values
+      - name: predicted
+        type: string
+        description: Column name containing the predicted values
+
+  - name: median_absolute_error
+    description: |
+      Median Absolute Error: the median of absolute differences between actual and predicted values.
+    arguments:
+      - name: actual
+        type: string
+        description: Column name containing the true values
+      - name: predicted
+        type: string
+        description: Column name containing the predicted values
+
+  - name: mean_bias_error
+    description: |
+      Mean Bias Error (MBE): average (predicted - actual) indicating systematic over/under prediction.
+    arguments:
+      - name: actual
+        type: string
+        description: Column name containing the true values
+      - name: predicted
+        type: string
+        description: Column name containing the predicted values

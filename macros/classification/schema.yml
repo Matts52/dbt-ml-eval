@@ -1,0 +1,374 @@
+version: 2
+
+macros:
+  - name: accuracy
+    description: |
+      Proportion of correct predictions (matches between actual and predicted).
+    arguments:
+      - name: actual
+        type: string
+        description: Column name containing the ground-truth label (e.g. 'actual')
+      - name: predicted
+        type: string
+        description: Column name containing the predicted label (e.g. 'predicted')
+
+  - name: precision
+    description: |
+      Precision (positive predictive value): proportion of positive predictions that are correct.
+    arguments:
+      - name: actual
+        type: string
+        description: Column name containing the ground-truth label (e.g. 'actual')
+      - name: predicted
+        type: string
+        description: Column name containing the predicted label (e.g. 'predicted')
+      - name: positive_label
+        type: integer
+        description: Value representing the positive class (default = 1). Use the same type as your label column.
+
+  - name: recall
+    description: |
+      Recall / True Positive Rate (sensitivity): proportion of actual positives correctly identified.
+    arguments:
+      - name: actual
+        type: string
+        description: Column name containing the ground-truth label (e.g. 'actual')
+      - name: predicted
+        type: string
+        description: Column name containing the predicted label (e.g. 'predicted')
+      - name: positive_label
+        type: integer
+        description: Value representing the positive class (default = 1)
+
+  - name: true_positives
+    description: |
+      The count of true positives (predicted == positive_label and actual == positive_label).
+    arguments:
+      - name: actual
+        type: string
+        description: Column name containing the ground-truth label
+      - name: predicted
+        type: string
+        description: Column name containing the predicted label
+      - name: positive_label
+        type: integer
+        description: Value representing the positive class (default = 1)
+
+  - name: false_positives
+    description: |
+      The count of false positives (predicted == positive_label and actual != positive_label).
+    arguments:
+      - name: actual
+        type: string
+        description: Column name containing the ground-truth label
+      - name: predicted
+        type: string
+        description: Column name containing the predicted label
+      - name: positive_label
+        type: integer
+        description: Value representing the positive class (default = 1)
+
+  - name: true_negatives
+    description: |
+      The count of true negatives (predicted != positive_label and actual != positive_label).
+    arguments:
+      - name: actual
+        type: string
+        description: Column name containing the ground-truth label
+      - name: predicted
+        type: string
+        description: Column name containing the predicted label
+      - name: positive_label
+        type: integer
+        description: Value representing the positive class (default = 1)
+
+  - name: false_negatives
+    description: |
+      The count of false negatives (predicted != positive_label and actual == positive_label).
+    arguments:
+      - name: actual
+        type: string
+        description: Column name containing the ground-truth label
+      - name: predicted
+        type: string
+        description: Column name containing the predicted label
+      - name: positive_label
+        type: integer
+        description: Value representing the positive class (default = 1)
+
+  - name: f1_score
+    description: |
+      F1 score: harmonic mean of precision and recall.
+    arguments:
+      - name: actual
+        type: string
+        description: Column name containing the ground-truth label
+      - name: predicted
+        type: string
+        description: Column name containing the predicted label
+      - name: positive_label
+        type: integer
+        description: Value representing the positive class (default = 1)
+
+  - name: jaccard_index
+    description: |
+      Jaccard index (intersection over union) for the positive class.
+    arguments:
+      - name: actual
+        type: string
+        description: Column name containing the ground-truth label
+      - name: predicted
+        type: string
+        description: Column name containing the predicted label
+      - name: positive_label
+        type: integer
+        description: Value representing the positive class (default = 1)
+
+  - name: fowlkes_mallows_index
+    description: |
+      Fowlkes–Mallows index: geometric mean of precision and recall.
+    arguments:
+      - name: actual
+        type: string
+        description: Column name containing the ground-truth label
+      - name: predicted
+        type: string
+        description: Column name containing the predicted label
+      - name: positive_label
+        type: integer
+        description: Value representing the positive class (default = 1)
+
+  - name: matthews_correlation
+    description: |
+      Matthews correlation coefficient: balanced measure of binary classification performance.
+    arguments:
+      - name: actual
+        type: string
+        description: Column name containing the ground-truth label
+      - name: predicted
+        type: string
+        description: Column name containing the predicted label
+      - name: positive_label
+        type: integer
+        description: Value representing the positive class (default = 1)
+
+  - name: positive_predictive_value
+    description: |
+      Same as precision; returned as the positive predictive value for the positive class.
+    arguments:
+      - name: actual
+        type: string
+        description: Column name containing the ground-truth label
+      - name: predicted
+        type: string
+        description: Column name containing the predicted label
+      - name: positive_label
+        type: integer
+        description: Value representing the positive class (default = 1)
+
+  - name: negative_predictive_value
+    description: |
+      Negative predictive value: proportion of negative predictions that are correct.
+    arguments:
+      - name: actual
+        type: string
+        description: Column name containing the ground-truth label
+      - name: predicted
+        type: string
+        description: Column name containing the predicted label
+      - name: positive_label
+        type: integer
+        description: Value representing the positive class (default = 1)
+
+  - name: false_discovery_rate
+    description: |
+      False discovery rate (FDR): proportion of positive predictions that are incorrect.
+    arguments:
+      - name: actual
+        type: string
+        description: Column name containing the ground-truth label
+      - name: predicted
+        type: string
+        description: Column name containing the predicted label
+      - name: positive_label
+        type: integer
+        description: Value representing the positive class (default = 1)
+
+  - name: false_omission_rate
+    description: |
+      False omission rate (FOR): proportion of negative predictions that are actually positive.
+    arguments:
+      - name: actual
+        type: string
+        description: Column name containing the ground-truth label
+      - name: predicted
+        type: string
+        description: Column name containing the predicted label
+      - name: positive_label
+        type: integer
+        description: Value representing the positive class (default = 1)
+
+  - name: false_positive_rate
+    description: |
+      False positive rate (1 - specificity): proportion of actual negatives incorrectly labelled positive.
+    arguments:
+      - name: actual
+        type: string
+        description: Column name containing the ground-truth label
+      - name: predicted
+        type: string
+        description: Column name containing the predicted label
+      - name: positive_label
+        type: integer
+        description: Value representing the positive class (default = 1)
+
+  - name: false_negative_rate
+    description: |
+      False negative rate (1 - recall): proportion of actual positives missed by the classifier.
+    arguments:
+      - name: actual
+        type: string
+        description: Column name containing the ground-truth label
+      - name: predicted
+        type: string
+        description: Column name containing the predicted label
+      - name: positive_label
+        type: integer
+        description: Value representing the positive class (default = 1)
+
+  - name: true_positive_rate
+    description: |
+      Same as recall / sensitivity: proportion of actual positives correctly predicted.
+    arguments:
+      - name: actual
+        type: string
+        description: Column name containing the ground-truth label
+      - name: predicted
+        type: string
+        description: Column name containing the predicted label
+      - name: positive_label
+        type: integer
+        description: Value representing the positive class (default = 1)
+
+  - name: true_negative_rate
+    description: |
+      Specificity: proportion of actual negatives correctly predicted.
+    arguments:
+      - name: actual
+        type: string
+        description: Column name containing the ground-truth label
+      - name: predicted
+        type: string
+        description: Column name containing the predicted label
+      - name: positive_label
+        type: integer
+        description: Value representing the positive class (default = 1)
+
+  - name: specificity
+    description: |
+      Alias for true_negative_rate; proportion of actual negatives correctly identified.
+    arguments:
+      - name: actual
+        type: string
+        description: Column name containing the ground-truth label
+      - name: predicted
+        type: string
+        description: Column name containing the predicted label
+      - name: positive_label
+        type: integer
+        description: Value representing the positive class (default = 1)
+
+  - name: prevalence
+    description: |
+      Prevalence: proportion of rows that belong to the positive class.
+    arguments:
+      - name: actual
+        type: string
+        description: Column name containing the ground-truth label
+      - name: positive_label
+        type: integer
+        description: Value representing the positive class (default = 1)
+
+  - name: prevalence_threshold
+    description: |
+      Prevalence threshold: the prevalence value where the classifier's performance meets a threshold derived from TPR and FPR.
+    arguments:
+      - name: actual
+        type: string
+        description: Column name containing the ground-truth label
+      - name: predicted
+        type: string
+        description: Column name containing the predicted label
+      - name: positive_label
+        type: integer
+        description: Value representing the positive class (default = 1)
+
+  - name: positive_likelihood_ratio
+    description: |
+      Positive likelihood ratio (sensitivity / false positive rate).
+    arguments:
+      - name: actual
+        type: string
+        description: Column name containing the ground-truth label
+      - name: predicted
+        type: string
+        description: Column name containing the predicted label
+      - name: positive_label
+        type: integer
+        description: Value representing the positive class (default = 1)
+
+  - name: negative_likelihood_ratio
+    description: |
+      Negative likelihood ratio ((1 - sensitivity) / specificity).
+    arguments:
+      - name: actual
+        type: string
+        description: Column name containing the ground-truth label
+      - name: predicted
+        type: string
+        description: Column name containing the predicted label
+      - name: positive_label
+        type: integer
+        description: Value representing the positive class (default = 1)
+
+  - name: diagnostic_odds_ratio
+    description: |
+      Diagnostic odds ratio: ratio of positive to negative likelihood ratios.
+    arguments:
+      - name: actual
+        type: string
+        description: Column name containing the ground-truth label
+      - name: predicted
+        type: string
+        description: Column name containing the predicted label
+      - name: positive_label
+        type: integer
+        description: Value representing the positive class (default = 1)
+
+  - name: informedness
+    description: |
+      Informedness (bookmaker informedness): TPR + TNR - 1.
+    arguments:
+      - name: actual
+        type: string
+        description: Column name containing the ground-truth label
+      - name: predicted
+        type: string
+        description: Column name containing the predicted label
+      - name: positive_label
+        type: integer
+        description: Value representing the positive class (default = 1)
+
+  - name: markedness
+    description: |
+      Markedness: PPV + NPV - 1 (measure of association from the prediction side).
+    arguments:
+      - name: actual
+        type: string
+        description: Column name containing the ground-truth label
+      - name: predicted
+        type: string
+        description: Column name containing the predicted label
+      - name: positive_label
+        type: integer
+        description: Value representing the positive class (default = 1)
