@@ -144,3 +144,27 @@ models:
       - assert_close:
           actual: actual_25
           expected: expected_25
+
+  - name: test_true_positives
+    data_tests:
+      - assert_equal:
+          actual: actual_25
+          expected: expected_25
+
+  - name: test_false_positives
+    data_tests:
+      - assert_equal:
+          actual: actual_25
+          expected: expected_25
+
+  - name: test_true_negatives
+    data_tests:
+      - assert_equal:
+          actual: actual_25
+          expected: expected_25
+
+  - name: test_false_negatives
+    data_tests:
+      - assert_equal:
+          actual: actual_25
+          expected: expected_25
