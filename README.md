@@ -308,7 +308,14 @@ Below are the classification macros declared in `macros/classification/schema.ym
 
 Below are the regression macros declared in `macros/regression/schema.yml`. Each macro accepts `actual` and `predicted` column names (strings). Formulas are given for the most common ones.
 
-Let $\{y_i\}_{i=1}^n$ be the true values and $\{\hat{y}_i\}_{i=1}^n$ be the predicted values. Let $\bar{y} = \frac{1}{n}\sum_{i=1}^n y_i$.
+Let $\{y_i\}_{i=1}^n$ be the true values and $\{\hat{y}_i\}_{i=1}^n$ be the predicted values.
+
+Let
+
+$$
+\bar{y} = \frac{1}{n} \sum_{i=1}^n y_i.
+$$
+
 
 - `mean_absolute_error(actual, predicted)`
   - MAE: mean absolute error.
@@ -342,13 +349,13 @@ Let $\{y_i\}_{i=1}^n$ be the true values and $\{\hat{y}_i\}_{i=1}^n$ be the pred
 - `explained_variance(actual, predicted)`
   - Explained variance: proportion of variance of $y$ explained by the predictions (related to but not identical to $R^2$ in some edge cases):
 
-  $$\text{Explained Variance} = 1 - \frac{\operatorname{Var}(y - \hat{y})}{\operatorname{Var}(y)}$$
+  $$\text{Explained Variance} = 1 - \frac{\mathrm{Var}(y - \hat{y})}{\mathrm{Var}(y)}$$
 
 - `median_absolute_error(actual, predicted)`
   - Median of the absolute errors.
   - Formula:
 
-  $$\text{Median AE} = \operatorname{median}\left( |y_i - \hat{y}_i| \right)$$
+  $$\text{Median AE} = \mathrm{median}\left( |y_i - \hat{y}_i| \right)$$
 
 - `mean_bias_error(actual, predicted)`
   - Mean bias error (MBE): average prediction error (prediction minus actual). Positive values indicate systematic over-prediction.
