@@ -20,6 +20,38 @@ dbt deps
 
 ## Current supported tested databases
 
+---
+
+## Quick Usage
+
+Produce a summary of classification metrics:
+
+```sql
+select
+  {{ dbt_ml_eval.classification_metrics('actual', 'predicted', positive_label=1) }}
+from {{ ref('my_predictions') }}
+```
+
+Produce a summary of regression metrics:
+
+```sql
+select
+  {{ dbt_ml_eval.regression_metrics('actual', 'predicted') }}
+from {{ ref('my_regression_predictions') }}
+```
+
+Call specific measures:
+
+```sql
+select
+  {{ dbt_ml_eval.accuracy('actual', 'predicted') }} as accuracy,
+  {{ dbt_ml_eval.precision('actual', 'predicted') }} as precision,
+  {{ dbt_ml_eval.recall('actual', 'predicted') }} as recall
+from {{ ref('my_predictions') }}
+```
+
+---
+
 **Current supported tested databases include:**
 - Postgres
 - DuckDB
@@ -375,30 +407,6 @@ $$
   - Emits a collection of regression metrics (MAE, MSE, RMSE, R^2, explained variance, median AE, MBE) as columns.
 
 Both consolidated macros delegate to the individual metric macros in this package.
-
----
-
-## Examples
-
-Produce a one-row summary of classification metrics from a model `my_predictions`:
-
-```sql
-with preds as (
-  select * from {{ ref('my_predictions') }}
-)
-
-select
-  {{ dbt_ml_eval.classification_metrics('actual', 'predicted', positive_label=1) }}
-from preds
-```
-
-Get a set of regression metrics for `my_regression_preds`:
-
-```sql
-select
-  {{ dbt_ml_eval.regression_metrics('actual', 'predicted') }}
-from {{ ref('my_regression_preds') }}
-```
 
 ---
 
