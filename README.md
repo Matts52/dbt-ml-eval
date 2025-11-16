@@ -18,8 +18,6 @@ Then run:
 dbt deps
 ```
 
-## Current supported tested databases
-
 ---
 
 ## Quick Usage
@@ -52,7 +50,7 @@ from {{ ref('my_predictions') }}
 
 ---
 
-**Current supported tested databases include:**
+**Current tested/supported databases include:**
 - Postgres
 - DuckDB
 
