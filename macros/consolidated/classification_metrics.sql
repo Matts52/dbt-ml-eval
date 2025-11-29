@@ -4,7 +4,6 @@
 
 {%- macro default__classification_metrics(actual, predicted, positive_label=1) -%}
 
-select
     -- Classification counts
     {{ dbt_ml_eval.true_positives(actual, predicted, positive_label) }} as true_positives,
     {{ dbt_ml_eval.true_negatives(actual, predicted, positive_label) }} as true_negatives,
@@ -31,7 +30,7 @@ select
     -- Derived metrics
     {{ dbt_ml_eval.informedness(actual, predicted, positive_label) }} as informedness,
     {{ dbt_ml_eval.markedness(actual, predicted, positive_label) }} as markedness,
-    {{ dbt_ml_eval.prevalence(actual, predicted, positive_label) }} as prevalence,
+    {{ dbt_ml_eval.prevalence(actual, positive_label) }} as prevalence,
     {{ dbt_ml_eval.prevalence_threshold(actual, predicted, positive_label) }} as prevalence_threshold,
     {{ dbt_ml_eval.positive_likelihood_ratio(actual, predicted, positive_label) }} as positive_likelihood_ratio,
     {{ dbt_ml_eval.negative_likelihood_ratio(actual, predicted, positive_label) }} as negative_likelihood_ratio,

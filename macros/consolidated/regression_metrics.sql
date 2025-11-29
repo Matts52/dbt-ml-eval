@@ -4,7 +4,6 @@
 
 {%- macro default__regression_metrics(actual, predicted) -%}
 
-select
     -- Core error metrics
     {{ dbt_ml_eval.mean_absolute_error(actual, predicted) }} as mean_absolute_error,
     {{ dbt_ml_eval.mean_squared_error(actual, predicted) }} as mean_squared_error,
