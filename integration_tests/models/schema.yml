@@ -216,3 +216,9 @@ models:
       - assert_close:
           actual: actual_25
           expected: expected_25
+
+  - name: test_huber_loss
+    data_tests:
+      - assert_close:
+          actual: actual_25
+          expected: expected_25
