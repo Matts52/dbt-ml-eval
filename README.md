@@ -412,7 +412,7 @@ $$
   - Emits a wide set of classification counts and metrics (e.g. TP, FP, TN, FN, precision, recall, f1, jaccard, mcc, etc.) as a set of columns. Useful for producing a single-row summary for a dataset.
 
 - `regression_metrics(actual, predicted)`
-  - Emits a collection of regression metrics (MAE, MSE, RMSE, R^2, explained variance, median AE, MBE) as columns.
+  - Emits a collection of regression metrics (MAE, MSE, RMSE, R^2, explained variance, median AE, MBE, Huber loss) as columns.
 
 Both consolidated macros delegate to the individual metric macros in this package.
 

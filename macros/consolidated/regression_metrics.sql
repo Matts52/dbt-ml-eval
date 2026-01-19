@@ -16,6 +16,9 @@
 
     -- Scale-independent metrics
     {{ dbt_ml_eval.median_absolute_error(actual, predicted) }} as median_absolute_error,
-    {{ dbt_ml_eval.mean_bias_error(actual, predicted) }} as mean_bias_error
+    {{ dbt_ml_eval.mean_bias_error(actual, predicted) }} as mean_bias_error,
+
+    -- Robust loss metrics
+    {{ dbt_ml_eval.huber_loss(actual, predicted) }} as huber_loss
 
 {%- endmacro -%}
