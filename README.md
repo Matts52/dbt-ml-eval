@@ -80,6 +80,7 @@ from {{ ref('my_predictions') }}
 | `explained_variance`             | ✅           | ✅         |
 | `median_absolute_error`          | ✅           | ✅         |
 | `mean_bias_error`                | ✅           | ✅         |
+| `huber_loss`                     | ✅           | ✅         |
 
 ---
 
@@ -148,6 +149,7 @@ A compact index of all macros in this package and their signatures. Use this for
 - `explained_variance(actual, predicted)`
 - `median_absolute_error(actual, predicted)`
 - `mean_bias_error(actual, predicted)`
+- `huber_loss(actual, predicted, delta=1.0)`
 
 ### Consolidated
 - `classification_metrics(actual, predicted, positive_label=1)`
@@ -392,6 +394,14 @@ $$
   - Formula:
 
   $$\text{MBE} = \frac{1}{n} \sum_{i=1}^n (\hat{y}_i - y_i)$$
+
+- `huber_loss(actual, predicted, delta=1.0)`
+  - Huber loss: a loss function that is quadratic for small errors and linear for large errors, making it more robust to outliers than MSE. The parameter $\delta$ controls the transition point.
+  - Formula:
+
+  $$L_\delta(a) = \begin{cases} \frac{1}{2}a^2 & \text{if } |a| \le \delta \\ \delta \cdot (|a| - \frac{1}{2}\delta) & \text{if } |a| > \delta \end{cases}$$
+
+  where $a = y_i - \hat{y}_i$ is the residual. The macro returns the mean Huber loss across all observations.
 
 
 ---

@@ -88,3 +88,19 @@ macros:
       - name: predicted
         type: string
         description: Column name containing the predicted values
+
+  - name: huber_loss
+    description: |
+      Huber Loss: a loss function that is quadratic for small errors and linear for large errors,
+      making it more robust to outliers than MSE. Uses a threshold delta to transition between
+      quadratic and linear loss.
+    arguments:
+      - name: actual
+        type: string
+        description: Column name containing the true values
+      - name: predicted
+        type: string
+        description: Column name containing the predicted values
+      - name: delta
+        type: number
+        description: Threshold parameter controlling the transition between quadratic and linear loss (default 1.0)
