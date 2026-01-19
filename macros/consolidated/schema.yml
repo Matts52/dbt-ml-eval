@@ -18,7 +18,7 @@ macros:
 
   - name: regression_metrics
     description: |
-      Convenience macro that returns a set of regression metrics (MAE, MSE, RMSE, R^2, explained variance, Huber loss, etc.) for a given actual/predicted pair.
+      Convenience macro that returns a set of regression metrics (MAE, MSE, RMSE, R^2, explained variance, Huber loss, MSLE, etc.) for a given actual/predicted pair.
       Delegates to individual regression macros and returns them as columns.
     arguments:
       - name: actual

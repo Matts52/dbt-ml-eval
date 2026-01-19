@@ -104,3 +104,17 @@ macros:
       - name: delta
         type: number
         description: Threshold parameter controlling the transition between quadratic and linear loss (default 1.0)
+
+  - name: mean_squared_logarithmic_error
+    description: |
+      Mean Squared Logarithmic Error (MSLE): measures the mean squared difference between
+      the logarithms of predicted and actual values. Useful when targets span several orders
+      of magnitude and you care more about relative errors than absolute errors.
+      Note: Requires non-negative values for both actual and predicted.
+    arguments:
+      - name: actual
+        type: string
+        description: Column name containing the true values (must be non-negative)
+      - name: predicted
+        type: string
+        description: Column name containing the predicted values (must be non-negative)

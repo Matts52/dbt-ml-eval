@@ -81,6 +81,7 @@ from {{ ref('my_predictions') }}
 | `median_absolute_error`          | ✅           | ✅         |
 | `mean_bias_error`                | ✅           | ✅         |
 | `huber_loss`                     | ✅           | ✅         |
+| `mean_squared_logarithmic_error` | ✅           | ✅         |
 
 ---
 
@@ -150,6 +151,7 @@ A compact index of all macros in this package and their signatures. Use this for
 - `median_absolute_error(actual, predicted)`
 - `mean_bias_error(actual, predicted)`
 - `huber_loss(actual, predicted, delta=1.0)`
+- `mean_squared_logarithmic_error(actual, predicted)`
 
 ### Consolidated
 - `classification_metrics(actual, predicted, positive_label=1)`
@@ -403,6 +405,12 @@ $$
 
   where $a = y_i - \hat{y}_i$ is the residual. The macro returns the mean Huber loss across all observations.
 
+- `mean_squared_logarithmic_error(actual, predicted)`
+  - Mean Squared Logarithmic Error (MSLE): useful when targets span several orders of magnitude and you care more about relative errors. Requires non-negative values.
+  - Formula:
+
+  $$\text{MSLE} = \frac{1}{n} \sum_{i=1}^n \left( \log(1 + y_i) - \log(1 + \hat{y}_i) \right)^2$$
+
 
 ---
 
@@ -412,7 +420,7 @@ $$
   - Emits a wide set of classification counts and metrics (e.g. TP, FP, TN, FN, precision, recall, f1, jaccard, mcc, etc.) as a set of columns. Useful for producing a single-row summary for a dataset.
 
 - `regression_metrics(actual, predicted)`
-  - Emits a collection of regression metrics (MAE, MSE, RMSE, R^2, explained variance, median AE, MBE, Huber loss) as columns.
+  - Emits a collection of regression metrics (MAE, MSE, RMSE, R^2, explained variance, median AE, MBE, Huber loss, MSLE) as columns.
 
 Both consolidated macros delegate to the individual metric macros in this package.
 
