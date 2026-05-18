@@ -16,11 +16,15 @@ echo "1. Installing dependencies..."
 dbt deps --profile integration_tests_duckdb
 
 echo ""
-echo "2. Running dbt models..."
+echo "2. Loading seed data..."
+dbt seed --profile integration_tests_duckdb
+
+echo ""
+echo "3. Running dbt models..."
 dbt run --profile integration_tests_duckdb
 
 echo ""
-echo "3. Running tests..."
+echo "4. Running tests..."
 dbt test --profile integration_tests_duckdb
 
 echo ""
