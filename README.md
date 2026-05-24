@@ -1,6 +1,6 @@
 # dbt-ml-eval
 
-This dbt package provides a suite of evaluation macros for machine learning model metrics — classification and regression — designed to be used inline inside SELECT statements in your dbt models.
+This dbt package provides a suite of evaluation macros for machine learning model metrics — classification, regression, and clustering — designed to be used inline inside SELECT statements in your dbt models.
 
 ## Installation
 
@@ -82,6 +82,11 @@ from {{ ref('my_predictions') }}
 | `mean_bias_error`                | ✅           | ✅         |
 | `huber_loss`                     | ✅           | ✅         |
 | `mean_squared_logarithmic_error` | ✅           | ✅         |
+| `silhouette_score`               | ✅           | ✅         |
+| `davies_bouldin_index`           | ✅           | ✅         |
+| `calinski_harabasz_index`        | ✅           | ✅         |
+| `dunn_index`                     | ✅           | ✅         |
+| `inertia`                        | ✅           | ✅         |
 
 ---
 
@@ -105,6 +110,7 @@ Note: macro names above match the names in the `macros/.../schema.yml` files. Ma
 
 - Classification metrics (counts + rates + derived scores)
 - Regression metrics
+- Clustering metrics
 - Convenience / consolidated macros
 
 ---
@@ -153,9 +159,17 @@ A compact index of all macros in this package and their signatures. Use this for
 - `huber_loss(actual, predicted, delta=1.0)`
 - `mean_squared_logarithmic_error(actual, predicted)`
 
+### Clustering
+- `silhouette_score(table, feature_columns, cluster_column)`
+- `davies_bouldin_index(table, feature_columns, cluster_column)`
+- `calinski_harabasz_index(table, feature_columns, cluster_column)`
+- `dunn_index(table, feature_columns, cluster_column)`
+- `inertia(table, feature_columns, cluster_column)`
+
 ### Consolidated
 - `classification_metrics(actual, predicted, positive_label=1)`
 - `regression_metrics(actual, predicted)`
+- `clustering_metrics(table, feature_columns, cluster_column)`
 
 ---
 
@@ -414,6 +428,81 @@ $$
 
 ---
 
+## Clustering macros
+
+Clustering macros evaluate the quality of cluster assignments without reference to ground-truth labels.
+
+Unlike regression/classification macros, clustering macros operate over the full table (not column-level aggregates), so they accept a **table relation** as their first argument rather than column name strings.
+
+Let $C$ be the set of clusters, $n$ the total number of points.
+
+- `silhouette_score(table, feature_columns, cluster_column)`
+  - Measures how similar each point is to its own cluster vs. the nearest other cluster. Ranges from -1 to +1; higher is better.
+  - `feature_columns`: list of column names used to compute Euclidean distance (e.g. `['x', 'y']`)
+  - `cluster_column`: column name holding the cluster label
+  - Formula: for each point $i$,
+
+  $$a(i) = \text{mean distance to other points in the same cluster}$$
+
+  $$b(i) = \text{mean distance to points in the nearest other cluster}$$
+
+  $$s(i) = \frac{b(i) - a(i)}{\max(a(i),\, b(i))}, \quad \text{Silhouette Score} = \frac{1}{n}\sum_i s(i)$$
+
+  Example usage:
+
+  ```sql
+  {%- set my_data = ref('my_clustered_data') -%}
+  select
+    {{ dbt_ml_eval.silhouette_score(
+        table=my_data,
+        feature_columns=['x', 'y'],
+        cluster_column='cluster'
+    ) }} as silhouette_score
+  ```
+
+- `davies_bouldin_index(table, feature_columns, cluster_column)`
+  - Measures average similarity between each cluster and its most similar neighbour. Lower is better; 0 is perfect. More sensitive to cluster shape than silhouette.
+  - Formula: for each cluster $i$, let $S_i$ be the mean distance from points in $i$ to its centroid, and $d(i,j)$ be the distance between centroids $i$ and $j$:
+
+  $$\text{DBI} = \frac{1}{k} \sum_{i=1}^{k} \max_{j \neq i} \frac{S_i + S_j}{d(i, j)}$$
+
+- `calinski_harabasz_index(table, feature_columns, cluster_column)`
+  - Also called the Variance Ratio Criterion. Ratio of between-cluster to within-cluster dispersion, adjusted for degrees of freedom. Higher is better.
+  - Formula: let $SS_B$ = between-cluster sum of squares, $SS_W$ = within-cluster sum of squares, $k$ = number of clusters, $n$ = total points:
+
+  $$SS_B = \sum_{k} n_k \|\mathbf{c}_k - \mathbf{c}_{\text{global}}\|^2, \quad SS_W = \sum_{k} \sum_{x \in k} \|\mathbf{x} - \mathbf{c}_k\|^2$$
+
+  $$\text{CHI} = \frac{SS_B / (k-1)}{SS_W / (n-k)}$$
+
+- `dunn_index(table, feature_columns, cluster_column)`
+  - Ratio of the minimum inter-cluster distance to the maximum intra-cluster diameter. Higher is better.
+  - Formula:
+
+  $$\text{DI} = \frac{\min_{i \neq j} d(\text{cluster}_i, \text{cluster}_j)}{\max_k \text{diameter}(\text{cluster}_k)}$$
+
+  where $d(i,j)$ is the minimum point-to-point distance between clusters and $\text{diameter}(k)$ is the maximum pairwise distance within a cluster.
+
+- `inertia(table, feature_columns, cluster_column)`
+  - Within-Cluster Sum of Squares (WCSS): sum of squared distances from each point to its centroid. Lower is better; the primary metric for the elbow method when choosing $k$.
+  - Formula:
+
+  $$\text{Inertia} = \sum_{k} \sum_{x \in k} \|\mathbf{x} - \mathbf{c}_k\|^2$$
+
+- `clustering_metrics(table, feature_columns, cluster_column)`
+  - Consolidated convenience macro. Emits `silhouette_score`, `davies_bouldin_index`, `calinski_harabasz_index`, `dunn_index`, and `inertia` as columns in a single SELECT.
+
+  ```sql
+  {%- set my_data = ref('my_clustered_data') -%}
+  select
+    {{ dbt_ml_eval.clustering_metrics(
+        table=my_data,
+        feature_columns=['x', 'y'],
+        cluster_column='cluster'
+    ) }}
+  ```
+
+---
+
 ## Consolidated convenience macros
 
 - `classification_metrics(actual, predicted, positive_label=1)`
@@ -422,7 +511,10 @@ $$
 - `regression_metrics(actual, predicted)`
   - Emits a collection of regression metrics (MAE, MSE, RMSE, R^2, explained variance, median AE, MBE, Huber loss, MSLE) as columns.
 
-Both consolidated macros delegate to the individual metric macros in this package.
+- `clustering_metrics(table, feature_columns, cluster_column)`
+  - Emits silhouette score, Davies-Bouldin index, and Calinski-Harabasz index as columns.
+
+All consolidated macros delegate to the individual metric macros in this package.
 
 ---
 
@@ -442,6 +534,6 @@ Contributions welcome. Open issues or PRs for:
 - Additional unit/integration tests and tuning
 
 When adding a metric, please add:
-- A macro in `macros/<classification|regression>/`
+- A macro in `macros/<classification|regression|clustering>/`
 - An entry in the corresponding `macros/.../schema.yml` with argument descriptions
 - Integration tests in `integration_tests/models/` and `integration_tests/data/` as appropriate

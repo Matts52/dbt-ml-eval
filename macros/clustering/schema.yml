@@ -1,0 +1,110 @@
+version: 2
+
+macros:
+  - name: silhouette_score
+    description: |
+      Silhouette Score: measures how similar each point is to its own cluster compared to
+      neighbouring clusters. Ranges from -1 (misassigned) to +1 (well-separated, tight clusters).
+      A score near 0 indicates overlapping clusters.
+
+      Unlike the regression/classification macros, this macro accepts a table relation rather than
+      column names, because it requires a cross-join over the full dataset to compute pairwise
+      distances. Pass a dbt relation (e.g. from ref() or source()) as the table argument.
+
+      Formula per point i:
+        a(i) = mean distance to all other points in the same cluster
+        b(i) = mean distance to all points in the nearest other cluster
+        s(i) = (b(i) - a(i)) / max(a(i), b(i))
+      Returns: mean(s(i)) over all points.
+    arguments:
+      - name: table
+        type: relation
+        description: A dbt relation (e.g. ref('my_model')) containing the feature and cluster columns
+      - name: feature_columns
+        type: list
+        description: List of column name strings used to compute Euclidean distance (e.g. ['x', 'y'])
+      - name: cluster_column
+        type: string
+        description: Column name containing the cluster assignment label (e.g. 'cluster')
+
+  - name: dunn_index
+    description: |
+      Dunn Index: ratio of the minimum inter-cluster distance to the maximum intra-cluster
+      diameter. Higher is better; a large value indicates compact, well-separated clusters.
+
+      Formula:
+        DI = min_{i≠j} d(cluster_i, cluster_j) / max_k diameter(cluster_k)
+      where d(i,j) is the minimum pairwise distance between any point in cluster i and any
+      point in cluster j, and diameter(k) is the maximum pairwise distance within cluster k.
+    arguments:
+      - name: table
+        type: relation
+        description: A dbt relation (e.g. ref('my_model')) containing the feature and cluster columns
+      - name: feature_columns
+        type: list
+        description: List of column name strings used to compute Euclidean distance (e.g. ['x', 'y'])
+      - name: cluster_column
+        type: string
+        description: Column name containing the cluster assignment label (e.g. 'cluster')
+
+  - name: inertia
+    description: |
+      Inertia (Within-Cluster Sum of Squares, WCSS): sum of squared Euclidean distances
+      from each point to its cluster centroid. Lower is better; used in the elbow method
+      to choose the number of clusters.
+
+      Formula:
+        Inertia = Σ_k Σ_{x ∈ k} ||x - c_k||²
+    arguments:
+      - name: table
+        type: relation
+        description: A dbt relation (e.g. ref('my_model')) containing the feature and cluster columns
+      - name: feature_columns
+        type: list
+        description: List of column name strings used to compute Euclidean distance (e.g. ['x', 'y'])
+      - name: cluster_column
+        type: string
+        description: Column name containing the cluster assignment label (e.g. 'cluster')
+
+  - name: davies_bouldin_index
+    description: |
+      Davies-Bouldin Index (DBI): measures the average similarity between each cluster and its
+      most similar neighbour. Lower is better; 0 indicates perfect separation.
+      Similarity is defined as the ratio of within-cluster scatter to between-centroid distance.
+
+      Formula:
+        S_i = mean distance from points in cluster i to its centroid (scatter)
+        d(i,j) = Euclidean distance between centroids of clusters i and j
+        R(i,j) = (S_i + S_j) / d(i,j)
+        DBI = (1/k) * Σ max_{j≠i} R(i,j)
+    arguments:
+      - name: table
+        type: relation
+        description: A dbt relation (e.g. ref('my_model')) containing the feature and cluster columns
+      - name: feature_columns
+        type: list
+        description: List of column name strings used to compute Euclidean distance (e.g. ['x', 'y'])
+      - name: cluster_column
+        type: string
+        description: Column name containing the cluster assignment label (e.g. 'cluster')
+
+  - name: calinski_harabasz_index
+    description: |
+      Calinski-Harabasz Index (CHI), also called the Variance Ratio Criterion: ratio of
+      between-cluster dispersion to within-cluster dispersion, adjusted for cluster and sample count.
+      Higher is better; indicates tighter, more separated clusters.
+
+      Formula:
+        SS_B = Σ_k n_k * ||c_k - c_global||²  (between-cluster sum of squares)
+        SS_W = Σ_k Σ_{x ∈ k} ||x - c_k||²    (within-cluster sum of squares)
+        CHI  = (SS_B / (k - 1)) / (SS_W / (n - k))
+    arguments:
+      - name: table
+        type: relation
+        description: A dbt relation (e.g. ref('my_model')) containing the feature and cluster columns
+      - name: feature_columns
+        type: list
+        description: List of column name strings used to compute Euclidean distance (e.g. ['x', 'y'])
+      - name: cluster_column
+        type: string
+        description: Column name containing the cluster assignment label (e.g. 'cluster')

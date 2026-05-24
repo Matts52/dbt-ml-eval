@@ -228,3 +228,33 @@ models:
       - assert_close:
           actual: actual_25
           expected: expected_25
+
+  - name: test_silhouette_score
+    data_tests:
+      - assert_close:
+          actual: actual_25
+          expected: expected_25
+
+  - name: test_davies_bouldin_index
+    data_tests:
+      - assert_close:
+          actual: actual_25
+          expected: expected_25
+
+  - name: test_calinski_harabasz_index
+    data_tests:
+      - assert_close:
+          actual: actual_25
+          expected: expected_25
+
+  - name: test_dunn_index
+    data_tests:
+      - assert_close:
+          actual: actual_25
+          expected: expected_25
+
+  - name: test_inertia
+    data_tests:
+      - assert_close:
+          actual: actual_25
+          expected: expected_25
