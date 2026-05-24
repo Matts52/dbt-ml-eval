@@ -27,3 +27,20 @@ macros:
       - name: predicted
         type: string
         description: Column name containing the predicted values (e.g. 'predicted')
+
+  - name: clustering_metrics
+    description: |
+      Convenience macro that returns a set of internal clustering evaluation metrics
+      (silhouette_score, davies_bouldin_index, calinski_harabasz_index, dunn_index, inertia)
+      as columns. Accepts a table relation rather than column name strings because the metrics
+      require access to the full dataset.
+    arguments:
+      - name: table
+        type: relation
+        description: A dbt relation (e.g. ref('my_model')) containing the feature and cluster columns
+      - name: feature_columns
+        type: list
+        description: List of column name strings used to compute Euclidean distance (e.g. ['x', 'y'])
+      - name: cluster_column
+        type: string
+        description: Column name containing the cluster assignment label (e.g. 'cluster')
